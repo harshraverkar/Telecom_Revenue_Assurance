@@ -1,0 +1,138 @@
+rules:
+
+  L1_unbilled:
+    code: "L1"
+    name: "Unbilled CDR"
+    category: "A"
+    enabled: true
+    phase: 1
+    severity: "high"
+    detection: "sql"
+    tables:
+      - "cdr"
+      - "rating_events"
+    sql_function: "detect_L1_unbilled"
+    description: "CDR passed mediation but has no matching row in rating_events"
+
+  L2_wrong_tariff:
+    code: "L2"
+    name: "Wrong Tariff Applied"
+    category: "B"
+    enabled: false
+    phase: 1
+    severity: "high"
+    detection: "sql"
+    tables:
+      - "cdr"
+      - "rating_events"
+      - "plans"
+    sql_function: "detect_L2_wrong_tariff"
+    description: "rate_applied does not match the correct plan rate"
+
+  L3_roaming_gap:
+    code: "L3"
+    name: "Roaming Settlement Gap"
+    category: "C"
+    enabled: false
+    phase: 1
+    severity: "high"
+    detection: "sql"
+    tables:
+      - "cdr"
+      - "roaming_settlements"
+    sql_function: "detect_L3_roaming_gap"
+    description: "Roaming CDR exists but no settlement record was created"
+
+  L4_duplicate:
+    code: "L4"
+    name: "Duplicate CDR"
+    category: "A"
+    enabled: false
+    phase: 1
+    severity: "medium"
+    detection: "sql"
+    tables:
+      - "cdr"
+    sql_function: "detect_L4_duplicates"
+    description: "Same call recorded twice within 60 seconds"
+
+  L5_zero_rated:
+    code: "L5"
+    name: "Zero-Rated Data Anomaly"
+    category: "F"
+    enabled: false
+    phase: 1
+    severity: "high"
+    detection: "sql"
+    tables:
+      - "cdr"
+      - "rating_events"
+      - "plans"
+    sql_function: "detect_L5_zero_rated"
+    description: "Data session on paid plan but final_charge is zero"
+
+  L6_simbox:
+    code: "L6"
+    name: "SIM Box Fraud"
+    category: "E"
+    enabled: false
+    phase: 1
+    severity: "critical"
+    detection: "sql"
+    tables:
+      - "cdr"
+    sql_function: "detect_L6_simbox"
+    description: "msisdn making bulk short calls - SIM box pattern"
+
+  L7_suppression:
+    code: "L7"
+    name: "CDR Suppression"
+    category: "A"
+    enabled: false
+    phase: 1
+    severity: "high"
+    detection: "sql"
+    tables:
+      - "cdr"
+      - "mediation_events"
+    sql_function: "detect_L7_suppression"
+    description: "CDR dropped at mediation - output_to_rating is 0"
+
+  L13_rounding:
+    code: "L13"
+    name: "Rounding Leakage"
+    category: "B"
+    enabled: false
+    phase: 1
+    severity: "low"
+    detection: "sql"
+    tables:
+      - "cdr"
+    sql_function: "detect_L13_rounding"
+    description: "Systematic truncation loss in charge calculation"
+
+  L37_invoice_suppress:
+    code: "L37"
+    name: "Invoice Suppression"
+    category: "G"
+    enabled: false
+    phase: 1
+    severity: "high"
+    detection: "sql"
+    tables:
+      - "billing_records"
+    sql_function: "detect_L37_invoice_suppress"
+    description: "Invoice generated but dispatch_status is not sent"
+
+  L41_tax_leakage:
+    code: "L41"
+    name: "Tax GST Undercharge"
+    category: "G"
+    enabled: false
+    phase: 1
+    severity: "high"
+    detection: "sql"
+    tables:
+      - "billing_records"
+    sql_function: "detect_L41_tax_leakage"
+    description: "tax_amount is less than total_charge times 0.18"

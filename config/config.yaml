@@ -1,0 +1,17 @@
+mysql:
+  host: "localhost"
+  port: 3306
+  user: "root"
+  password: "2004"
+  database: "telecom_ra"
+  charset: "utf8mb4"
+
+sqlite:
+  db_path: "data/raw/telecom_ra.db"
+
+data:
+  n_subscribers: 3000
+  n_towers: 200
+  n_days: 90
+  leakage_rate: 0.07
+  random_seed: 42

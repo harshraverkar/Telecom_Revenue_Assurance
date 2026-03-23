@@ -1,0 +1,7 @@
+# Core -- needed for everything
+pandas>=2.0.0
+pyyaml>=6.0.1
+mysql-connector-python>=8.0.0
+
+# Optional -- makes query output prettier
+tabulate>=0.9.0
